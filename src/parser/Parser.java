@@ -31,16 +31,18 @@ public class Parser {
 	}
 	
 	private void readAllLines() throws IOException{
-		while (getReader().readLine() != null) {
-			addToUnparsedStrings(getReader().readLine());
+		while (getReader().ready()) {
+			String aux = getReader().readLine();
+			if (aux != null) {
+				addToUnparsedStrings(aux);
+			}
 		}
 	}
 	
 	private void parseUnparsedStrings(){
-		
+		Instruction auxInstruction = new Instruction();
 		for (String string : getUnparsedStrings()) {
-			Instruction auxInstruction = new Instruction();
-			for (String elementsOfString : string.split("")) {
+			for (String elementsOfString : string.split(" ")) {
 				StringBuilder stringBuilder = new StringBuilder(elementsOfString);
 				
 				if (elementsOfString.contains("=")) {
@@ -87,8 +89,11 @@ public class Parser {
 				}
 				if (StringUtils.isNumericSpace(stringBuilder.toString())) {
 					auxInstruction.setOperand(Integer.parseInt(stringBuilder.toString()));
+					addToParsedStrings(auxInstruction);
+					auxInstruction = new Instruction();
 				}
-				addToParsedStrings(auxInstruction);
+				
+				
 			}
 		}
 	}
