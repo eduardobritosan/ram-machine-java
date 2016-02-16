@@ -9,6 +9,7 @@ public class Memory {
 	
 	public Memory() {
 		setMemory(new ArrayList<Integer>());
+		getMemory().add(ZERO);
 	}
 	
 	public Memory(ArrayList<Integer> loadedMemory){
@@ -25,6 +26,10 @@ public class Memory {
 	
 	public Integer getAccumulator(){
 		return load(ZERO);
+	}
+	
+	public void writeInAccumulator(Integer newAcc){
+		store(ZERO, newAcc);
 	}
 
 	/**

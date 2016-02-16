@@ -2,15 +2,37 @@ package machine;
 
 import java.util.ArrayList;
 
+import memory.InstructionRegister;
 import memory.Memory;
 import tapes.InTape;
 import tapes.OutTape;
 
 public class Machine {
 	
+	public static enum Mnemonics{
+		LOAD,
+		STORE,
+		ADD,
+		SUB,
+		DIV,
+		MULT,
+		JUMP,
+		JGTZ,
+		JZERO,
+		NONE
+	}
+	
+	public static enum OperationTypes{
+		DIRECT,
+		INDIRECT,
+		IMMEDIATE,
+		NONE
+	}
+	
 	private InTape inTape;
 	private OutTape outTape;
 	private Memory memory;
+	private InstructionRegister instReg;
 	
 	public Machine() {
 		setInTape(new InTape());
