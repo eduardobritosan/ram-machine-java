@@ -1,0 +1,13 @@
+start:	READ 1
+		LOAD 1
+		STORE 2
+		STORE 3
+loop:	LOAD 3
+		MUL 1
+		STORE 3
+		LOAD 2
+		SUB =1
+		STORE 2
+		JGTZ loop
+		WRITE 3
+		HALT

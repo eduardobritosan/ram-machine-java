@@ -18,6 +18,7 @@ public class Tape {
 	protected ArrayList<Integer> tape;
 	protected Integer headPosition;
 	
+	
 	public Tape() {
 		setTape(new ArrayList<Integer>());
 		setHeadPosition(0);
@@ -30,6 +31,14 @@ public class Tape {
 	/**
 	 * @return the tape
 	 */
+	
+	public boolean movePossible(){
+		if (getHeadPosition() >= getTape().size() - 1) {
+			return false;
+		}
+		return true;
+	}
+	
 	protected ArrayList<Integer> getTape() {
 		return tape;
 	}

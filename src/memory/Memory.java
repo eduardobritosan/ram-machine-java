@@ -17,7 +17,7 @@ public class Memory {
 	}
 	
 	public void store(Integer position, Integer value){
-		getMemory().add(position, value);
+		getMemory().set(position, value);
 	}
 	
 	public Integer load(Integer position){
@@ -26,6 +26,10 @@ public class Memory {
 	
 	public Integer getAccumulator(){
 		return load(ZERO);
+	}
+	
+	public void setAccumulator(Integer value){
+		getMemory().set(ZERO,value);
 	}
 	
 	public void writeInAccumulator(Integer newAcc){
@@ -46,5 +50,7 @@ public class Memory {
 	private void setMemory(ArrayList<Integer> memory) {
 		this.memory = memory;
 	}
+	
+
 
 }

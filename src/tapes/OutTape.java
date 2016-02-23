@@ -16,4 +16,13 @@ public class OutTape extends Tape {
 		getTape().add(newInteger);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "OutTape [tape=" + tape + ", headPosition=" + headPosition + "]";
+	}
+	
+
 }

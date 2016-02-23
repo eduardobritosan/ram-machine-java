@@ -35,23 +35,27 @@ public class InstructionRegister {
 	/**
 	 * @param currentPosition the currentPosition to set
 	 */
-	private void setCurrentPosition(Integer currentPosition) {
+	public void setCurrentPosition(Integer currentPosition) {
 		this.currentPosition = currentPosition;
 	}
 	
 	public Instruction getCurrentInstruction(){
 		Instruction newInstruction = getInstMemory().get(getCurrentPosition());
-		if ((getCurrentPosition() + ONE) < getInstMemory().size()) {
+		if ((getCurrentPosition() + ONE) <= getInstMemory().size()) {
 			setCurrentPosition(getCurrentPosition() + ONE);
 			return newInstruction;
 		}
 		return null;
 	}
+	
+	public Instruction inspectCurrentInstruction(){
+		return getInstMemory().get(getCurrentPosition());
+	}
 
 	/**
 	 * @return the instMemory
 	 */
-	private ArrayList<Instruction> getInstMemory() {
+	public ArrayList<Instruction> getInstMemory() {
 		return instMemory;
 	}
 
@@ -60,6 +64,14 @@ public class InstructionRegister {
 	 */
 	private void setInstMemory(ArrayList<Instruction> instMemory) {
 		this.instMemory = instMemory;
+	}
+	
+	public Instruction getInstruction(Integer pos) throws IndexOutOfBoundsException{
+		return getInstMemory().get(pos);
+	}
+	
+	public boolean hasNext(){
+		return getInstMemory().size() > getCurrentPosition();
 	}
 	
 	

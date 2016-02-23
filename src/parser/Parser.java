@@ -12,9 +12,11 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Parser {
 	
+	private static final Integer ZERO = 0;
 	private BufferedReader reader;
 	private ArrayList<String> unparsedStrings;
 	private ArrayList<Instruction> parsedString;
+	private ArrayList<String> tagList;
 	
 	public Parser(String filename) throws IOException {
 		FileReader fileReader = new FileReader(filename);
@@ -25,11 +27,7 @@ public class Parser {
 		parseUnparsedStrings();
 	}
 	
-	public static void main(String[] args) throws IOException {
-		Parser parse = new Parser("test.txt");
-		System.out.println(parse.toString());
-	}
-	
+
 	private void readAllLines() throws IOException{
 		while (getReader().ready()) {
 			String aux = getReader().readLine();
@@ -42,9 +40,11 @@ public class Parser {
 	private void parseUnparsedStrings(){
 		Instruction auxInstruction = new Instruction();
 		for (String string : getUnparsedStrings()) {
-			for (String elementsOfString : string.split(" ")) {
+			for (String elementsOfString : string.replaceAll("\t","").replaceAll(":", ": ").replaceAll(";.*", "").split(" ")) {
 				StringBuilder stringBuilder = new StringBuilder(elementsOfString);
-				
+				if (elementsOfString.endsWith(":")) {
+					auxInstruction.setTag(elementsOfString.replace(":", ""));
+				}
 				if (elementsOfString.contains("=")) {
 					auxInstruction.setOpType(Machine.OperationTypes.IMMEDIATE);
 					stringBuilder.deleteCharAt(stringBuilder.indexOf("="));
@@ -56,44 +56,59 @@ public class Parser {
 				else {
 					auxInstruction.setOpType(Machine.OperationTypes.DIRECT);
 				}
-				switch (elementsOfString) {
+				switch (elementsOfString.toUpperCase()) {
 				case "LOAD":
 					auxInstruction.setMnemonic(Machine.Mnemonics.LOAD);
-					break;
+					continue;
 				case "STORE":
 					auxInstruction.setMnemonic(Machine.Mnemonics.STORE);
-					break;
+					continue;
 				case "ADD":
 					auxInstruction.setMnemonic(Machine.Mnemonics.ADD);
-					break;
+					continue;
 				case "SUB":
 					auxInstruction.setMnemonic(Machine.Mnemonics.SUB);
-					break;
-				case "MULT":
-					auxInstruction.setMnemonic(Machine.Mnemonics.MULT);
-					break;
+					continue;
+				case "MUL":
+					auxInstruction.setMnemonic(Machine.Mnemonics.MUL);
+					continue;
 				case "DIV":
 					auxInstruction.setMnemonic(Machine.Mnemonics.DIV);
-					break;
+					continue;
+				case "WRITE":
+					auxInstruction.setMnemonic(Machine.Mnemonics.WRITE);
+					continue;
+				case "READ":
+					auxInstruction.setMnemonic(Machine.Mnemonics.READ);
+					continue;
 				case "JUMP":
 					auxInstruction.setMnemonic(Machine.Mnemonics.JUMP);
-					break;
+					continue;
 				case "JZERO":
 					auxInstruction.setMnemonic(Machine.Mnemonics.JZERO);
-					break;
+					continue;
 				case "JGTZ":
 					auxInstruction.setMnemonic(Machine.Mnemonics.JGTZ);
-					break;
+					continue;
+				case "HALT":
+					auxInstruction.setMnemonic(Machine.Mnemonics.HALT);
+					addToParsedStrings(auxInstruction);
+					auxInstruction = new Instruction();
+					continue;
 				default:
 					break;
 				}
-				if (StringUtils.isNumericSpace(stringBuilder.toString())) {
+				if (StringUtils.isNumeric(stringBuilder.toString())) {
 					auxInstruction.setOperand(Integer.parseInt(stringBuilder.toString()));
 					addToParsedStrings(auxInstruction);
 					auxInstruction = new Instruction();
 				}
 				
-				
+				else if (auxInstruction.getMnemonic() != Machine.Mnemonics.NONE && auxInstruction.getOperand() == null) {
+					auxInstruction.setTargetTag(stringBuilder.toString());
+					addToParsedStrings(auxInstruction);
+					auxInstruction = new Instruction();
+				}
 			}
 		}
 	}
@@ -138,7 +153,7 @@ public class Parser {
 	/**
 	 * @return the parsedString
 	 */
-	protected ArrayList<Instruction> getParsedString() {
+	public ArrayList<Instruction> getParsedString() {
 		return parsedString;
 	}
 
@@ -147,6 +162,24 @@ public class Parser {
 	 */
 	protected void setParsedString(ArrayList<Instruction> parsedString) {
 		this.parsedString = parsedString;
+	}
+
+	/**
+	 * @return the tagList
+	 */
+	private ArrayList<String> getTagList() {
+		return tagList;
+	}
+
+	/**
+	 * @param tagList the tagList to set
+	 */
+	private void setTagList(ArrayList<String> tagList) {
+		this.tagList = tagList;
+	}
+	
+	private void addToTagList(String newString){
+		getTagList().add(newString);
 	}
 
 }

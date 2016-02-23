@@ -9,6 +9,7 @@ public class Instruction {
 	private String tag;
 	private Machine.OperationTypes opType;
 	private Integer operand;
+	private String targetTag;
 	private final static String NULLTAG = "NULL";
 	
 	
@@ -16,23 +17,33 @@ public class Instruction {
 		setMnemonic(Machine.Mnemonics.NONE);
 		setOpType(Machine.OperationTypes.NONE);
 		setTag(NULLTAG);
+		setTargetTag(NULLTAG);
 	}
 	
 	public Instruction(Machine.Mnemonics mnemonic, Machine.OperationTypes opType){
 		setMnemonic(mnemonic);
 		setOpType(opType);
 		setTag(NULLTAG);
+		setTargetTag(NULLTAG);
 	}
 	
 	public Instruction(Machine.Mnemonics mnemonic, Machine.OperationTypes opType, String tag){
 		setMnemonic(mnemonic);
 		setOpType(opType);
 		setTag(tag);
+		setTargetTag(NULLTAG);
+	}
+	
+	public Instruction(Machine.Mnemonics mnemonic, Machine.OperationTypes opType, String tag, String targetTag){
+		setMnemonic(mnemonic);
+		setOpType(opType);
+		setTag(tag);
+		setTargetTag(targetTag);
 	}
 	/**
 	 * @return the mnemonic
 	 */
-	private Machine.Mnemonics getMnemonic() {
+	public Machine.Mnemonics getMnemonic() {
 		return mnemonic;
 	}
 
@@ -46,21 +57,21 @@ public class Instruction {
 	/**
 	 * @return the tag
 	 */
-	private String getTag() {
+	public String getTag() {
 		return tag;
 	}
 
 	/**
 	 * @param tag the tag to set
 	 */
-	private void setTag(String tag) {
+	public void setTag(String tag) {
 		this.tag = tag;
 	}
 
 	/**
 	 * @return the opType
 	 */
-	private Machine.OperationTypes getOpType() {
+	public Machine.OperationTypes getOpType() {
 		return opType;
 	}
 
@@ -74,7 +85,7 @@ public class Instruction {
 	/**
 	 * @return the operand
 	 */
-	private Integer getOperand() {
+	public Integer getOperand() {
 		return operand;
 	}
 
@@ -83,6 +94,20 @@ public class Instruction {
 	 */
 	public void setOperand(Integer operand) {
 		this.operand = operand;
+	}
+
+	/**
+	 * @return the targetTag
+	 */
+	public String getTargetTag() {
+		return targetTag;
+	}
+
+	/**
+	 * @param targetTag the targetTag to set
+	 */
+	public void setTargetTag(String targetTag) {
+		this.targetTag = targetTag;
 	}
 
 }
